@@ -23,7 +23,7 @@
             </Items>
         </asp:Menu>
     
-        <asp:GridView OnRowCommand="grdv_Usuarios_RowCommand" ID="grdv_Usuarios" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False">
+        <asp:GridView DataKeyNames="codigoUsuario" OnRowCommand="grdv_Usuarios_RowCommand" ID="grdv_Usuarios" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False">
             <Columns>
                 <asp:ButtonField CommandName="editUsuario" Text="Editar" ControlStyle-CssClass="btn btn-info">
                     <ControlStyle CssClass="btn btn-info" />
@@ -32,9 +32,37 @@
                     <ControlStyle CssClass="btn btn-danger" />
                  </asp:ButtonField>
                 <asp:BoundField DataField="codigoUsuario" Visible="False" />
+                <asp:BoundField DataField="nombreUsuario" Visible="true" />
             </Columns>
         </asp:GridView>
-      
+         
+
+ <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Formulario</h4>
+      </div>
+      <div class="modal-body">
+        <asp:UpdatePanel runat="server" ID="updatePanelUsuario">
+            <ContentTemplate>
+                <asp:DetailsView runat="server" ID="detailsUsuario">
+                    <Fields>
+                        <asp:BoundField DataField="codigoUsuario" Visible="false" />
+                        <asp:BoundField DataField=""
+                    </Fields>
+                </asp:DetailsView>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
     
     </div>
     </form>

@@ -44,13 +44,39 @@ namespace WebApplication1
         protected void grdv_Usuarios_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             string comand = e.CommandName;
+            int index = Convert.ToInt32(e.CommandArgument);
             //int codigo = 
             switch (comand) {
                 case "editUsuario":
-                    //hemos pulsado el boton de editar;
+
                     break;
                 case "deleteUsuario":
-                    //hemos pulsado el boton de borrar;
+                    string cadenaConexion = ConfigurationManager.ConnectionStrings["GESTLIBRERIAConnectionString"].ConnectionString;
+                    string codigo = grdv_Usuarios.DataKeys[index].Value.ToString();
+
+                    string SQL = "DELETE FROM usuarios WHERE codigoUsuario=" + codigo;
+                    //"call xxxx(?,?);
+                    //"exec xxx(@id);
+                    SqlConnection conn = null;
+                    try { 
+                       conn = new SqlConnection(cadenaConexion);
+                        conn.Open();
+                        SqlCommand sqlcmm = new SqlCommand();
+                        sqlcmm.Connection = conn;
+                        sqlcmm.CommandText = SQL;
+                        sqlcmm.CommandType = CommandType.Text;
+                       // sqlcmm.CommandType = CommandType.StoredProcedure;
+                        sqlcmm.ExecuteNonQuery();
+                    }
+                    catch (SqlException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+
                     break;
             }
         }
