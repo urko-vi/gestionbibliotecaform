@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="WebApplication1.index" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="index.aspx.cs" Inherits="EjemploWebForm.index" %>
 
 <!DOCTYPE html>
 <html lang="es-es">
@@ -37,7 +37,7 @@
         </asp:GridView>
          
 
- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+ <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -45,16 +45,45 @@
         <h4 class="modal-title" id="exampleModalLabel">Formulario</h4>
       </div>
       <div class="modal-body">
+       <asp:Label runat="server" ID="lblIdUsuario" Visible="false" Text="Label"></asp:Label>
         <asp:UpdatePanel runat="server" ID="updatePanelUsuario">
             <ContentTemplate>
                 <asp:DetailsView runat="server" ID="detailsUsuario">
                     <Fields>
-                        <asp:BoundField DataField="codigoUsuario" Visible="false" />
-                        <asp:BoundField DataField=""
+                        
+                        <asp:BoundField DataField="nombreUsuario" Visible=" true" />
                     </Fields>
+                  
                 </asp:DetailsView>
             </ContentTemplate>
         </asp:UpdatePanel>
+
+      </div>
+      <div class="modal-footer">
+          <!--
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              --->
+        
+
+        <asp:Button runat="server" OnClick="btnCancelarUsuario_Click"  id="btnCancelarUsuario" Text="Cancelar" />
+        <asp:Button runat="server" OnClick="btnGuardarUsuario_Click"  id="btnGuardarUsuario" Text="Guardar" />
+      </div>
+    </div>
+  </div>
+</div>
+    
+        <div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="">Borrar</h4>
+      </div>
+      <div class="modal-body">
+          Esta usted seguro que desea borrar?
+          <asp:TextBox ID="txtIdUsuario" runat="server" Enabled="false" Visible="false"></asp:TextBox>
+          <asp:Button ID="btnCancelDelete" runat="server" OnClick="" Text="Cancelar" />
+          <asp:Button ID="btnDelete" runat="server" OnClick="" Text="Borrar" />
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -63,7 +92,6 @@
     </div>
   </div>
 </div>
-    
     </div>
     </form>
 </body>

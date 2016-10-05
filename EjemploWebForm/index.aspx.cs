@@ -8,7 +8,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
 
-namespace WebApplication1
+namespace EjemploWebForm
 {
     public partial class index : System.Web.UI.Page
     {
@@ -30,7 +30,7 @@ namespace WebApplication1
                 SqlDataAdapter dAdapter = new SqlDataAdapter(SQL, conn);
                 dAdapter.Fill(ds);
                 dt = ds.Tables[0];
-
+                
                 grdv_Usuarios.DataSource = dt;
                 grdv_Usuarios.DataBind();
                 conn.Close();
@@ -45,40 +45,78 @@ namespace WebApplication1
         {
             string comand = e.CommandName;
             int index = Convert.ToInt32(e.CommandArgument);
-            //int codigo = 
-            switch (comand) {
+            string codigo = grdv_Usuarios.DataKeys[index].Value.ToString();
+
+            switch (comand)
+            {
                 case "editUsuario":
+                {
+                        lblIdUsuario.Text = codigo;
+                        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                        sb.Append(@"<script>");
+                        sb.Append("$('#editModal').modal('show')");
+                        sb.Append(@"</script>");
 
+
+                }
                     break;
+                        
                 case "deleteUsuario":
-                    string cadenaConexion = ConfigurationManager.ConnectionStrings["GESTLIBRERIAConnectionString"].ConnectionString;
-                    string codigo = grdv_Usuarios.DataKeys[index].Value.ToString();
-
-                    string SQL = "DELETE FROM usuarios WHERE codigoUsuario=" + codigo;
-                    //"call xxxx(?,?);
-                    //"exec xxx(@id);
-                    SqlConnection conn = null;
-                    try { 
-                       conn = new SqlConnection(cadenaConexion);
-                        conn.Open();
-                        SqlCommand sqlcmm = new SqlCommand();
-                        sqlcmm.Connection = conn;
-                        sqlcmm.CommandText = SQL;
-                        sqlcmm.CommandType = CommandType.Text;
-                       // sqlcmm.CommandType = CommandType.StoredProcedure;
-                        sqlcmm.ExecuteNonQuery();
-                    }
-                    catch (SqlException ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                    finally
-                    {
-                        conn.Close();
-                    }
-
+                { 
+                   
+                    txtIdUsuario.Text = codigo;
+                    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                    sb.Append(@"<script>");
+                    sb.Append("$('#deleteConfirm').modal('show')");
+                    sb.Append(@"</script>");
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "ConfirmarBorrado", sb.ToString(), false);
+                 }
                     break;
+
             }
+        }
+        private void cancelDelete()
+        {
+
+        }
+        private void deleteUsuario()
+        {
+            SqlConnection conn = null;
+            string cadenaConexion = ConfigurationManager.ConnectionStrings["GESTLIBRERIAConnectionString"].ConnectionString;
+
+            string codigo = txtIdUsuario.Text;
+            string SQL = "DELETE FROM usuarios WHERE codigoUsuario=" + codigo;
+            try
+            {
+                conn = new SqlConnection(cadenaConexion);
+                conn.Open();
+                SqlCommand sqlcmm = new SqlCommand();
+                sqlcmm.Connection = conn;
+                sqlcmm.CommandText = SQL;
+                sqlcmm.CommandType = CommandType.Text;
+                // sqlcmm.CommandType = CommandType.StoredProcedure;
+                sqlcmm.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+        }
+
+        protected void btnGuardarUsuario_Click(object sender, EventArgs e)
+        {
+            string codigo = lblIdUsuario.Text;
+            string nombre = ((TextBox)detailsUsuario.FindControl("nombreUsuario")).Text;
+          }
+
+        protected void btnCancelarUsuario_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
